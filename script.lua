@@ -1,13 +1,10 @@
-
-
 -- [[ MURDER MYSTERY 2 SHOWCASE BOOSTING GUI ]] ---- Watermark: muna_boost_off-- Compatibility: Delta, Fluxus, Arceus X
-local UserInputService = game:GetService("UserInputService")local Players = game:GetService("Players")local LocalPlayer = Players.LocalPlayerlocal CoreGui = game:GetService("CoreGui")
-local ScreenGui = Instance.new("ScreenGui")
+local UserInputService = game:GetService("UserInputService")local Players = game:GetService("Players")local LocalPlayer = Players.LocalPlayer
+-- ВИПРАВЛЕННЯ: Безпечний запуск через PlayerGui для повної сумісностіlocal PlayerGui = LocalPlayer:WaitForChild("PlayerGui")local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "MunaBoostGui"
 ScreenGui.ResetOnSpawn = false
-pcall(function()
-    ScreenGui.Parent = CoreGui:FindFirstChild("RobloxGui") or CoreGuiend)
-local function makeDrag(gui, dragPart)
+ScreenGui.Parent = PlayerGui
+-- ФУНКЦІЯ ПЕРЕТЯГУВАННЯ ВІКОНlocal function makeDrag(gui, dragPart)
     local dragging, dragInput, dragStart, startPos
     dragPart.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -30,7 +27,7 @@ local function makeDrag(gui, dragPart)
             gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)end
-local function makeResize(gui, resizeBtn, minW, minH, maxW, maxH)
+-- ФУНКЦІЯ РЕГУЛЮВАННЯ РОЗМІРУ Вікноlocal function makeResize(gui, resizeBtn, minW, minH, maxW, maxH)
     local resizing = false
     local dragStart, startSize
     resizeBtn.InputBegan:Connect(function(input)
@@ -53,7 +50,7 @@ local function makeResize(gui, resizeBtn, minW, minH, maxW, maxH)
             resizing = false
         end
     end)end
-local MainFrame = Instance.new("Frame")
+-- ГОЛОВНЕ ВІКНО (MAIN FRAME)local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Size = UDim2.new(0, 320, 0, 480)
 MainFrame.Position = UDim2.new(0.05, 0, 0.15, 0)
@@ -163,14 +160,17 @@ local function createTabButton(name, order)
     btn.MouseButton1Click:Connect(function()
         for _, tName in ipairs(tabs) do
             tabFrames[tName].Visible = false
-            TabContainer:GetChildren()[table.find(tabs, tName) + 1].BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+        end
+        for _, child in ipairs(TabContainer:GetChildren()) do
+            if child:IsA("TextButton") then
+                child.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+            end
         end
         frame.Visible = true
         btn.BackgroundColor3 = Color3.fromRGB(80, 60, 150)
     end)end
 for i, tName in ipairs(tabs) do createTabButton(tName, i) end
 tabFrames["Control"].Visible = true 
-TabContainer:GetChildren().BackgroundColor3 = Color3.fromRGB(80, 60, 150)
 local function createStyledButton(text, parent, callback)
     local b = Instance.new("TextButton")
     b.Size = UDim2.new(1, 0, 0, 34)
@@ -235,10 +235,10 @@ local function setupExtraWindow(window, titleText, size, pos)
 setupExtraWindow(FakeProfile, "muna_boost_off - Profile", UDim2.new(0, 280, 0, 350), UDim2.new(0.4, 0, 0.15, 0))
 setupExtraWindow(FakeTrade, "Fake Trade Session", UDim2.new(0, 400, 0, 300), UDim2.new(0.4, 0, 0.45, 0))
 local Avatar = Instance.new("ImageLabel")
+
 Avatar.Size = UDim2.new(0, 60, 0, 60)
 Avatar.Position = UDim2.new(0, 10, 0, 40)
 Avatar.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
-
 Avatar.Image = "rbxassetid://12543415160"
 Avatar.Parent = FakeProfile
 local ac = Instance.new("UICorner") ac.CornerRadius = UDim.new(0, 30) ac.Parent = Avatar
@@ -376,10 +376,8 @@ l.Parent = vTab
 end
 createValueText("Coins: 9999")
 createValueText("Level: 100")
-createValueText("Knives unlocked:50")
+createValueText("Knives unlocked: 50")
 StatusLabel.Text = "Status: GUI Loaded in MM2!"
 
 
 
-
-			
