@@ -376,7 +376,7 @@ l.Parent = vTab
 end
 createValueText("Coins: 9999")
 createValueText("Level: 100")
-createValueText("Knives unlocked: 184")
+createValueText("Knives unlocked:50")
 StatusLabel.Text = "Status: GUI Loaded in MM2!"
 
 
